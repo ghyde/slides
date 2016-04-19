@@ -18,7 +18,7 @@ function merge_upstream() {
     git checkout reveal-master
     git pull
     git checkout -b rename_branch
-    git mv index.html reveal.html
+    git mv index.html template.html
     git mv LICENSE REVEAL_LICENSE
     git mv README.md REVEAL_README.md
     git mv CONTRIBUTING.md REVEAL_CONTRIBUTING.md

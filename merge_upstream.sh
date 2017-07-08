@@ -26,7 +26,7 @@ function merge_upstream() {
 
     git checkout gh-pages
     git checkout -b merge_branch
-    git merge --squash -X theirs rename_branch
+    git merge --squash -X theirs --allow-unrelated-histories rename_branch
     git commit -m "Merge with upstream."
 
     read -r -p "Edit merge commit message? [y/N] " response

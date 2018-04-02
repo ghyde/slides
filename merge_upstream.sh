@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 function merge_upstream() {
     local current_branch
     local stashed
@@ -12,22 +14,32 @@ function merge_upstream() {
         exit
     fi
 
+    # Save current work
     current_branch="$(basename "$(git symbolic-ref HEAD)")"
     stashed="$(git stash)"
 
+    # Update reveal.js master branch
     git checkout reveal-master
     git pull
+
+    # Rename reveal.js files
     git checkout -b rename_branch
     git mv index.html template.html
-    git mv LICENSE REVEAL_LICENSE
-    git mv README.md REVEAL_README.md
-    git mv CONTRIBUTING.md REVEAL_CONTRIBUTING.md
-    git commit -m "(squash) Rename files."
+    for f in LICENSE README.md CONTRIBUTING.md; do
+        git mv {,REVEAL_}$f
+    done
+    git commit -m "(squash) Rename files"
 
+    # Merge upstream changes
     git checkout gh-pages
     git checkout -b merge_branch
     git merge --squash -X theirs --allow-unrelated-histories rename_branch
-    git commit -m "Merge with upstream."
+    # Make sure swap files are ignored by Git
+    if ! grep -q '*.swp' .gitignore; then
+        sed -ir '/^\*\.eml$/a *.swp' .gitignore
+        git add .gitignore
+    fi
+    git commit -m "Merge with upstream"
 
     read -r -p "Edit merge commit message? [y/N] " response
     response="$(echo "$response" | awk '{print tolower($0)}')"

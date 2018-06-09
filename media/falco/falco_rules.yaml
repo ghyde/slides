@@ -1,0 +1,71 @@
+# Examples: https://github.com/draios/falco/wiki/Falco-Examples
+
+# Start Falco:
+#   sudo falco -r media/falco/falco_rules.yaml
+
+
+# A shell is run in a container
+# Commands:
+#   docker run -d --name demo -p 8080:80 nginx:latest
+#   google-chrome http://localhost:8080
+#   docker exec -ti demo /bin/bash
+- macro: in_container
+  condition: container.id != host
+
+- macro: spawned_process
+  condition: evt.type = execve and evt.dir = <
+
+- list: shell_binaries
+  items: [bash, csh, ksh, sh, tcsh, zsh, dash]
+
+- rule: run_shell_in_container
+  desc: a shell was spawned in a container.
+  condition: spawned_process and in_container and proc.name in (shell_binaries)
+  output: "Shell spawned in a container"
+  priority: CRITICAL
+  tags: [container, critical]
+
+
+# Write to /tmp/demo
+# Commands:
+#   mkdir /tmp/demo
+#   while :; do touch /tmp/demo/foo; sleep 1; touch /tmp/demo/bar; sleep 1; done
+- macro: open_write
+  condition: >
+    (evt.type = open or evt.type = openat) and
+    fd.typechar='f'
+
+- rule: write_foo
+  desc: an attempt to write to /tmp/demo/foo
+  condition: open_write and fd.name = /tmp/demo/foo
+  output: "File opened for writing (user=%user.name command=%proc.cmdline file=%fd.name)"
+  priority: NOTICE
+  tags: [temp_dir, notice]
+
+- rule: write_bar
+  desc: an attempt to write to /tmp/demo/bar
+  condition: open_write and fd.name = /tmp/demo/bar
+  output: "File opened for writing (user=%user.name command=%proc.cmdline file=%fd.name)"
+  priority: WARNING
+  tags: [temp_dir, warning]
+
+# Process other than skype/webex tries to access camera
+- macro: open_event
+  condition: evt.type = open or evt.type = openat
+
+- list: trusted_video_apps
+  items: [skype, webex]
+
+- rule: access_camera
+  desc: a process other than skype/webex tries to access the camera
+  condition: open_event and fd.name = /dev/video0 and not proc.name in (trusted_video_apps)
+  output: Unexpected process opening camera video device (command=%proc.cmdline)
+  priority: CRITICAL
+  tags: [webcam, critical]
+
+
+# Other commands:
+#   falco --validate media/falco/falco_rules.yaml
+#   falco -l access_camera -r media/falco/falco_rules.yaml
+#   sudo falco -r media/falco/falco_rules.yaml -t notice -t warning
+#   sudo falco -r media/falco/falco_rules.yaml -T notice -T warning

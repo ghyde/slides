@@ -1,137 +1,123 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
 
-		<title>Introduction to Sysdig Falco</title>
+	<title>Introduction to Sysdig Falco</title>
 
-		<meta name="description" content="Introduction to Sysdig Falco">
-		<meta name="author" content="Garrett Hyde">
+	<meta name="description" content="Introduction to Sysdig Falco">
+	<meta name="author" content="Garrett Hyde">
 
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css" id="theme">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- Title Slide -->
+			<section>
+				<h1>Introduction To Sysdig Falco</h1>
+			</section>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+			<!-- Bio -->
+			<section>
+				<h2>About Me</h2>
+				<ul>
+					<li>Red Hat Architect</li>
+					<li>Utah Cyber Protection Team</li>
+					<li>10+ years Linux administration</li>
+				</ul>
+			</section>
 
-	<body>
+			<section>
+				<h2>Overview</h2>
+				<ul>
+					<li>Introduction</li>
+					<li>Falco Rules</li>
+					<li>Demo</li>
+				</ul>
+			</section>
 
-		<div class="reveal">
-			<div class="slides">
-
-				<!-- Title Slide -->
+			<!-- Introduction -->
+			<section>
 				<section>
-					<h1>Introduction To Sysdig Falco</h1>
+					<h1>Introduction</h1>
 				</section>
 
-				<!-- Bio -->
 				<section>
-					<h2>About Me</h2>
-					<ul>
-						<li>Red Hat Architect</li>
-						<li>Utah Cyber Protection Team</li>
-						<li>10+ years Linux administration</li>
-					</ul>
-				</section>
-
-				<section>
-					<h2>Overview</h2>
-					<ul>
-						<li>Introduction</li>
-						<li>Falco Rules</li>
-						<li>Demo</li>
-					</ul>
-				</section>
-
-				<!-- Introduction -->
-				<section>
-					<section>
-						<h1>Introduction</h1>
-					</section>
-
-					<section>
-						<h2>What is Sysdig?</h2>
-						<blockquote cite="https://www.sysdig.org/">
-							&ldquo;Sysdig is open source, system-level exploration: capture
-							system state and activity from a running Linux instance, then
-							save, filter and analyze.&rdquo;
-						</blockquote>
-						<p class="fragment">
-							strace + tcpdump + htop + iftop + lsof +<br>
-							transaction tracing + awesome sauce.
+					<h2>What is Sysdig?</h2>
+					<blockquote cite="https://www.sysdig.org/">
+						&ldquo;Sysdig is open source, system-level exploration: capture
+						system state and activity from a running Linux instance, then
+						save, filter and analyze.&rdquo;
+					</blockquote>
+					<p class="fragment">
+						strace + tcpdump + htop + iftop + lsof +<br>
+						transaction tracing + awesome sauce.
+					</p>
+					<aside class="notes">
+						<p>
+							Creators of WinPCap and Wireshark, system level troubleshooting
+							made easy.
 						</p>
-						<aside class="notes">
-							<p>
-								Creators of WinPCap and Wireshark, system level troubleshooting
-								made easy.
-							</p>
-							<p>
-								Captures system calls and system level events via tracepoints.
-								Less overhead than strace.
-							</p>
-							<p>
-								Container aware.
-							</p>
-						</aside>
-					</section>
-
-					<section>
-						<h2>What is Sysdig Falco?</h2>
-						<ul>
-							<li>
-								A behavioral activity monitor designed to detect anomalous
-								activity in your applications.
-							</li>
-							<li>
-								Powered by sysdig’s system call capture infrastructure.
-							</li>
-							<li>
-								Continuously monitor and detect container, application, host,
-								and network activity.
-							</li>
-						</ul>
-
-						<aside class="notes">
-							<p>
-								Monitor only; can't make actions based upon events.
-							</p>
-							<p>
-								Can use Fluentd to forward falco logs to a log aggregator
-								(Splunk, Elasticsearch).
-							</p>
-					</section>
-
+						<p>
+							Captures system calls and system level events via tracepoints.
+							Less overhead than strace.
+						</p>
+						<p>
+							Container aware.
+						</p>
+					</aside>
 				</section>
 
-				<!-- Falco Rules -->
 				<section>
-					<section>
-						<h1>Falco Rules</h1>
-					</section>
+					<h2>What is Sysdig Falco?</h2>
+					<ul>
+						<li>
+							A behavioral activity monitor designed to detect anomalous
+							activity in your applications.
+						</li>
+						<li>
+							Powered by sysdig’s system call capture infrastructure.
+						</li>
+						<li>
+							Continuously monitor and detect container, application, host,
+							and network activity.
+						</li>
+					</ul>
 
-					<section>
-						<h2>Rules</h2>
-						<pre><code class="yaml" data-trim contenteditable>
+					<aside class="notes">
+						<p>
+							Monitor only; can't make actions based upon events.
+						</p>
+						<p>
+							Can use Fluentd to forward falco logs to a log aggregator
+							(Splunk, Elasticsearch).
+						</p>
+				</section>
+
+			</section>
+
+			<!-- Falco Rules -->
+			<section>
+				<section>
+					<h1>Falco Rules</h1>
+				</section>
+
+				<section>
+					<h2>Rules</h2>
+					<pre><code class="yaml" data-trim contenteditable>
 - rule: run_shell_in_container
   desc: a shell was spawned in a container.
   condition: container.id != host and proc.name = bash
@@ -140,36 +126,36 @@
   tags: [container]
 						</code></pre>
 
-						<aside class="notes">
-							<p>
-								Priority: "emergency", "alert", "critical", "error", "warning",
-								"notice", "informational", or "debug".
-							</p>
-							<p>
-								Tags that are used to categorize the ruleset into groups of
-								related rules.
-							</p>
-						</aside>
-					</section>
+					<aside class="notes">
+						<p>
+							Priority: "emergency", "alert", "critical", "error", "warning",
+							"notice", "informational", or "debug".
+						</p>
+						<p>
+							Tags that are used to categorize the ruleset into groups of
+							related rules.
+						</p>
+					</aside>
+				</section>
 
-					<section>
-						<h2>Macros</h2>
-						<pre><code class="yaml" data-trim contenteditable>
+				<section>
+					<h2>Macros</h2>
+					<pre><code class="yaml" data-trim contenteditable>
 - macro: in_container
   condition: container.id != host
 						</code></pre>
 
-						<aside class="notes">
-							<p>
-								Provide a way to define common sub-portions of rules in a
-								reusable way.
-							</p>
-						</aside>
-					</section>
+					<aside class="notes">
+						<p>
+							Provide a way to define common sub-portions of rules in a
+							reusable way.
+						</p>
+					</aside>
+				</section>
 
-					<section>
-						<h2>Lists</h2>
-						<pre><code class="yaml" data-trim contenteditable>
+				<section>
+					<h2>Lists</h2>
+					<pre><code class="yaml" data-trim contenteditable>
 - list: shell_binaries
   items: [bash, csh, ksh, sh, tcsh, zsh, dash]
 
@@ -183,17 +169,17 @@
   condition: proc.name in (known_binaries)
 						</code></pre>
 
-						<aside class="notes">
-							<p>
-								Referring to a list inserts the list items in the macro, rule,
-								or list. Note that lists can contain other lists.
-							</p>
-						</aside>
-					</section>
+					<aside class="notes">
+						<p>
+							Referring to a list inserts the list items in the macro, rule,
+							or list. Note that lists can contain other lists.
+						</p>
+					</aside>
+				</section>
 
-					<section>
-						<h2>Combined Example</h2>
-						<pre><code class="yaml" data-trim contenteditable>
+				<section>
+					<h2>Combined Example</h2>
+					<pre><code class="yaml" data-trim contenteditable>
 - macro: in_container
   condition: container.id != host
 
@@ -207,63 +193,50 @@
   priority: WARNING
   tags: [container]
 						</code></pre>
-					</section>
-
 				</section>
 
-				<!-- Demo -->
-				<section>
-					<h1>Demo</h1>
-				</section>
+			</section>
 
-				<!-- Resources -->
-				<section>
-					<h2>Resources</h2>
-					<p>
-						<a href="https://twitter.com/GarrettHyde" target="_blank">
+			<!-- Demo -->
+			<section>
+				<h1>Demo</h1>
+			</section>
+
+			<!-- Resources -->
+			<section>
+				<h2>Resources</h2>
+				<p>
+					<a href="https://twitter.com/GarrettHyde" target="_blank">
 						@GarrettHyde</a>
-					</p>
-					<p>
-						<a href="https://sysdig.com/opensource/falco/" target="_blank">
-							https://sysdig.com/opensource/falco/</a>
-					</p>
-					<p>
-						<a href="https://github.com/draios/falco" target="_blank">
-							https://github.com/draios/falco</a>
-					</p>
-				</section>
-
-			</div>
-
+				</p>
+				<p>
+					<a href="https://sysdig.com/opensource/falco/" target="_blank">
+						https://sysdig.com/opensource/falco/</a>
+				</p>
+				<p>
+					<a href="https://github.com/draios/falco" target="_blank">
+						https://github.com/draios/falco</a>
+				</p>
+			</section>
 		</div>
+	</div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/zoom/zoom.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/search/search.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
 
-		<script>
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealZoom, RevealNotes, RevealSearch, RevealHighlight]
+		});
+	</script>
+</body>
 
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/search/search.js', async: true },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
-
-		</script>
-
-	</body>
 </html>

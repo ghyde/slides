@@ -1,72 +1,57 @@
 <!doctype html>
 <html lang="en">
 
-	<head>
-		<meta charset="utf-8">
+<head>
+	<meta charset="utf-8">
 
-		<title>Hacking With Python</title>
+	<title>Hacking With Python</title>
 
-		<meta name="description" content="Hacking With Python">
-		<meta name="author" content="Garrett Hyde">
+	<meta name="description" content="Hacking with Python">
+	<meta name="author" content="Garrett Hyde">
 
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css" id="theme">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- Title Slide -->
+			<section>
+				<h1>Hacking With Python</h1>
+			</section>
 
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+			<section>
+				<h2>About Me</h2>
+				<ul>
+					<li>Red Hat Architect</li>
+					<li>Utah Cyber Protection Team</li>
+					<li>10+ years Python</li>
+					<li>10+ years Linux administration</li>
+				</ul>
+				<p>
+					Twitter: <a href="https://twitter.com/garretthyde">@GarrettHyde</a>
+				</p>
+			</section>
 
-	<body>
-
-		<div class="reveal">
-
-			<div class="slides">
-				<!-- Title Slide -->
+			<!-- Basic Networking -->
+			<section>
 				<section>
-					<h1>Hacking With Python</h1>
+					<h1>Basic Networking</h1>
 				</section>
 
-
 				<section>
-					<h2>About Me</h2>
-					<ul>
-						<li>Red Hat Architect</li>
-						<li>Utah Cyber Protection Team</li>
-						<li>10+ years Python</li>
-						<li>10+ years Linux administration</li>
-					</ul>
-					<p>
-						Twitter: <a href="https://twitter.com/garretthyde">@GarrettHyde</a>
-					</p>
-				</section>
-
-				<!-- Basic Networking -->
-				<section>
-					<section>
-						<h1>Basic Networking</h1>
-					</section>
-
-					<section>
-						<h2>Sockets</h2>
-						<pre><code class="python" data-trim contenteditable>
+					<h2>Sockets</h2>
+					<pre><code class="python" data-trim contenteditable>
 import socket
 
 HOST = "example.com"
@@ -74,81 +59,81 @@ PORT = 23
 
 s = socket.socket()
 try:
-    s.connect((HOST, PORT))  # Connect to server
-    reply = s.recv(1024)     # Get server prompt
-    s.send("Hello, World!")  # Send text
-    reply = s.recv(2048)     # Get server reply
-    print(reply)
+	s.connect((HOST, PORT))  # Connect to server
+	reply = s.recv(1024)     # Get server prompt
+	s.send("Hello, World!")  # Send text
+	reply = s.recv(2048)     # Get server reply
+	print(reply)
 finally:
-    s.close()
+	s.close()
 						</code></pre>
-						<a href="https://docs.python.org/2/library/socket.html">
-							https://docs.python.org/2/library/socket.html
-						</a>
-					</section>
+					<a href="https://docs.python.org/2/library/socket.html">
+						https://docs.python.org/2/library/socket.html
+					</a>
+				</section>
 
-					<section>
-						<h2>Open URLs</h2>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>Open URLs</h2>
+					<pre><code class="python" data-trim contenteditable>
 import urllib2
 
 response = urllib2.urlopen('http://example.com/')
 html = response.read()
 						</code></pre>
-						<a href="https://docs.python.org/2/howto/urllib2.html">
-							https://docs.python.org/2/howto/urllib2.html
-						</a>
-					</section>
+					<a href="https://docs.python.org/2/howto/urllib2.html">
+						https://docs.python.org/2/howto/urllib2.html
+					</a>
+				</section>
 
-					<section>
-						<h2>Work With HTTP</h2>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>Work With HTTP</h2>
+					<pre><code class="python" data-trim contenteditable>
 import requests
 r = requests.get('https://example.com/user',
-                 auth=('user', 'pass'))
+				 auth=('user', 'pass'))
 r.status_code  # 200
 r.headers['content-type']  # 'application/json; charset=utf8'
 r.encoding  # 'utf-8'
 r.text      # u'{"type":"User"...'
 r.json()    # {u'some_info': u'foo', u'more_info': u'bar'}
 						</code></pre>
-						<a href="http://docs.python-requests.org/en/master/">
-							http://docs.python-requests.org/en/master/
-						</a>
-					</section>
-
+					<a href="http://docs.python-requests.org/en/master/">
+						http://docs.python-requests.org/en/master/
+					</a>
 				</section>
 
-				<!-- BeautifulSoup -->
+			</section>
+
+			<!-- BeautifulSoup -->
+			<section>
 				<section>
-					<section>
-						<h1>Beautiful Soup</h1>
-						<a href="https://www.crummy.com/software/BeautifulSoup/">
-							https://www.crummy.com/software/BeautifulSoup/
-						</a>
-					</section>
+					<h1>Beautiful Soup</h1>
+					<a href="https://www.crummy.com/software/BeautifulSoup/">
+						https://www.crummy.com/software/BeautifulSoup/
+					</a>
+				</section>
 
-					<section>
-						<h2>What Is Beautiful Soup?</h2>
-						<p>
-							Beautiful Soup is a Python library designed for quick turnaround
-							projects like screen-scraping.
-						</p>
-					</section>
+				<section>
+					<h2>What Is Beautiful Soup?</h2>
+					<p>
+						Beautiful Soup is a Python library designed for quick turnaround
+						projects like screen-scraping.
+					</p>
+				</section>
 
-					<section>
-						<h2>ASCII Captcha</h2>
-						<img src="media/hacking_with_python/ascii_captcha.png" alt="ASCII Captcha">
-					</section>
+				<section>
+					<h2>ASCII Captcha</h2>
+					<img src="media/hacking_with_python/ascii_captcha.png" alt="ASCII Captcha">
+				</section>
 
-					<section>
-						<h2>ASCII Captcha HTML</h2>
-						<img src="media/hacking_with_python/ascii_captcha_html.png" alt="ASCII Captcha HTML">
-					</section>
+				<section>
+					<h2>ASCII Captcha HTML</h2>
+					<img src="media/hacking_with_python/ascii_captcha_html.png" alt="ASCII Captcha HTML">
+				</section>
 
-					<section>
-						<h2>Parse HTML</h2>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>Parse HTML</h2>
+					<pre><code class="python" data-trim contenteditable>
 from bs4 import BeautifulSoup
 import requests
 
@@ -160,43 +145,43 @@ def get_captcha(url):
 
   # Replace "br" tags with "\n"
   for br in captcha.find_all('br'):
-      br.replace_with("\n")
+	  br.replace_with("\n")
 
   # Filter out empty lines
   captcha = [l for l in captcha.getText().split("\n")
-             if l.strip() != u""]
+			 if l.strip() != u""]
   return captcha, r.cookies
 						</code></pre>
-						<aside class="notes">
-							<p>
-								I used `br.replace_with` just in case br tags are inconsistent.
-							</p>
-						</aside>
-					</section>
+					<aside class="notes">
+						<p>
+							I used `br.replace_with` just in case br tags are inconsistent.
+						</p>
+					</aside>
+				</section>
 
+			</section>
+
+			<section>
+				<section>
+					<h1>Scapy</h1>
+					<a href="https://scapy.net/">
+						https://scapy.net/
+					</a>
 				</section>
 
 				<section>
-					<section>
-						<h1>Scapy</h1>
-						<a href="https://scapy.net/">
-							https://scapy.net/
-						</a>
-					</section>
+					<h2>What is Scapy?</h2>
+					<p>
+						Scapy is a powerful interactive packet manipulation program. It is
+						able to forge or decode packets of a wide number of protocols,
+						send them on the wire, capture them, match requests and replies,
+						and much more.
+					</p>
+				</section>
 
-					<section>
-						<h2>What is Scapy?</h2>
-						<p>
-							Scapy is a powerful interactive packet manipulation program. It is
-							able to forge or decode packets of a wide number of protocols,
-							send them on the wire, capture them, match requests and replies,
-							and much more.
-						</p>
-					</section>
-
-					<section>
-						<h2>ARP Request</h2>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>ARP Request</h2>
+					<pre><code class="python" data-trim contenteditable>
 from scapy.all import *
 
 src_nic = "eth0"
@@ -206,15 +191,15 @@ dest_ip = "10.1.0.100"
 
 e = Ether(src=src_mac, dst="ff:ff:ff:ff:ff:ff", type=0x0806)
 a = ARP(op=0x01, hwsrc=src_mac, psrc=src_ip,
-        pdst=dest_ip)
+		pdst=dest_ip)
 
 sendp(e/a, iface=src_nic)
 						</code></pre>
-					</section>
+				</section>
 
-					<section>
-						<h2>IPv6 Address Request</h2>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>IPv6 Address Request</h2>
+					<pre><code class="python" data-trim contenteditable>
 from scapy.all import *
 
 src_nic = "eth0"
@@ -228,24 +213,24 @@ e = ICMPv6NDOptPrefixInfo(prefix="cc5f::", prefixlen=64)  # Advertised Prefix
 
 send(a/b/c/d/e, iface=src_nic)
 						</code></pre>
-						<p style="font-size: 18px;">
-							Reference: <a href="https://samsclass.info/ipv6/proj/projL3-scapy-ra.html" target="_blank">
+					<p style="font-size: 18px;">
+						Reference: <a href="https://samsclass.info/ipv6/proj/projL3-scapy-ra.html" target="_blank">
 							https://samsclass.info/ipv6/proj/projL3-scapy-ra.html</a>
-						</p>
-					</section>
-
+					</p>
 				</section>
 
-				<!-- Cryptography -->
-				<section>
-					<section>
-						<h1>Cryptography</h1>
-					</section>
+			</section>
 
-					<section>
-						<h2>Crypt</h2>
-						<p>Standard Library</p>
-						<pre><code class="python" data-trim contenteditable>
+			<!-- Cryptography -->
+			<section>
+				<section>
+					<h1>Cryptography</h1>
+				</section>
+
+				<section>
+					<h2>Crypt</h2>
+					<p>Standard Library</p>
+					<pre><code class="python" data-trim contenteditable>
 import crypt
 import getpass
 
@@ -260,27 +245,28 @@ print(pw_hash)
 # $6$cPJEwX8kfKRW8UR5$GSDzRNOaTCczs3g/axuZkLaRRKvSxaP7v
 # Cj.xBbE6xo1X0g3JQ6B4AuNDmRo7oW4ZukoeEiOHBmipLjHibz3t0
 						</code></pre>
-						<p style="font-size: 18px;">
-							Documentation: <a href="https://docs.python.org/3/library/crypt.html" target="_blank">
+					<p style="font-size: 18px;">
+						Documentation: <a href="https://docs.python.org/3/library/crypt.html" target="_blank">
 							https://docs.python.org/3/library/crypt.html</a>
+					</p>
+					<aside class="notes">
+						<p>
+							Output may vary if using OSX or Windows.
 						</p>
-						<aside class="notes">
-							<p>
-								Output may vary if using OSX or Windows.
-							</p>
-							<p>
-								python3 -c 'import crypt, getpass; print(crypt.crypt(getpass.getpass(), crypt.METHOD_SHA512))'
-							</p>
-						</aside>
-					</section>
+						<p>
+							python3 -c 'import crypt, getpass; print(crypt.crypt(getpass.getpass(),
+							crypt.METHOD_SHA512))'
+						</p>
+					</aside>
+				</section>
 
-					<section>
-						<h2>Cryptography (Module)</h2>
-						<a href="https://cryptography.io/en/latest/" target="_blank">
-							https://cryptography.io/en/latest/
-						</a>
-						</p>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>Cryptography (Module)</h2>
+					<a href="https://cryptography.io/en/latest/" target="_blank">
+						https://cryptography.io/en/latest/
+					</a>
+					</p>
+					<pre><code class="python" data-trim contenteditable>
 from cryptography.fernet import Fernet
 
 key = Fernet.generate_key()
@@ -293,18 +279,18 @@ cipher_text = cipher_suite.encrypt(
 # Decryption
 plain_text = cipher_suite.decrypt(cipher_text)
 						</code></pre>
-						<p style="font-size: 18px;">
-							Reference: <a href="http://docs.python-guide.org/en/latest/scenarios/crypto/#example" target="_blank">
+					<p style="font-size: 18px;">
+						Reference: <a href="http://docs.python-guide.org/en/latest/scenarios/crypto/#example" target="_blank">
 							http://docs.python-guide.org/en/latest/scenarios/crypto/#example</a>
-						</p>
-					</section>
+					</p>
+				</section>
 
-					<section>
-						<h2>PyCrypto</h2>
-						<a href="https://www.dlitz.net/software/pycrypto/" target="_blank">
-							https://www.dlitz.net/software/pycrypto/
-						</a>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>PyCrypto</h2>
+					<a href="https://www.dlitz.net/software/pycrypto/" target="_blank">
+						https://www.dlitz.net/software/pycrypto/
+					</a>
+					<pre><code class="python" data-trim contenteditable>
 from Crypto.Cipher import AES
 
 # Encryption
@@ -318,33 +304,33 @@ decryption_suite = AES.new('This is a key123',
   AES.MODE_CBC, 'This is an IV456')
 plain_text = decryption_suite.decrypt(cipher_text)
 						</code></pre>
-						<p style="font-size: 18px;">
-							Reference: <a href="http://docs.python-guide.org/en/latest/scenarios/crypto/#pycrypto" target="_blank">
+					<p style="font-size: 18px;">
+						Reference: <a href="http://docs.python-guide.org/en/latest/scenarios/crypto/#pycrypto" target="_blank">
 							http://docs.python-guide.org/en/latest/scenarios/crypto/#pycrypto</a>
-						</p>
-					</section>
-
+					</p>
 				</section>
 
-				<!-- Other Uses -->
-				<section>
-					<section>
-						<h1>Other Uses</h1>
-					</section>
+			</section>
 
-					<section>
-						<h2>Buffer Overflow</h2>
-						<pre><code class="console" data-trim contenteditable>
+			<!-- Other Uses -->
+			<section>
+				<section>
+					<h1>Other Uses</h1>
+				</section>
+
+				<section>
+					<h2>Buffer Overflow</h2>
+					<pre><code class="console" data-trim contenteditable>
 $ python -c 'print("a" * 5)'
 aaaaa
 
 $ python -c 'print("0"*128 + b"\x8b\x87\x04\x08")' | pwned.exe
 						</code></pre>
-					</section>
+				</section>
 
-					<section>
-						<h2>Generate Random Strings</h2>
-						<pre><code class="python" data-trim contenteditable>
+				<section>
+					<h2>Generate Random Strings</h2>
+					<pre><code class="python" data-trim contenteditable>
 import random
 
 chars = "abcdefghijklmnopqrstuvwxyz1234567890"
@@ -353,80 +339,67 @@ str_len = 16
 random_str = "".join(random.sample(chars, str_len))
 print(random_str)
 						</code></pre>
-					</section>
-
-					<section>
-						<h2>Anything you need to automate</h2>
-					</section>
-
 				</section>
 
-				<!-- Resources -->
 				<section>
-					<section>
-						<h1>Resources</h1>
-					</section>
+					<h2>Anything you need to automate</h2>
+				</section>
 
-					<section>
-						<h2>Books</h2>
-	          <img src="media/hacking_with_python/violent_python.jpg" alt="Violent Python">
-	          <img src="media/hacking_with_python/black_hat_python.jpg" alt="Black Hat Python">
-					</section>
+			</section>
 
-					<section>
-						<h2>Python Packages</h2>
-						<ul>
-							<li><a href="https://github.com/rocky/python-uncompyle6/">
+			<!-- Resources -->
+			<section>
+				<section>
+					<h1>Resources</h1>
+				</section>
+
+				<section>
+					<h2>Books</h2>
+					<img src="media/hacking_with_python/violent_python.jpg" alt="Violent Python">
+					<img src="media/hacking_with_python/black_hat_python.jpg" alt="Black Hat Python">
+				</section>
+
+				<section>
+					<h2>Python Packages</h2>
+					<ul>
+						<li><a href="https://github.com/rocky/python-uncompyle6/">
 								uncompyle6
 							</a></li>
-							<li><a href="https://xael.org/pages/python-nmap-en.html">
+						<li><a href="https://xael.org/pages/python-nmap-en.html">
 								python-nmap
 							</a></li>
-							<li><a href="http://www.unixuser.org/~euske/python/pdfminer/index.html">
+						<li><a href="http://www.unixuser.org/~euske/python/pdfminer/index.html">
 								PDFMiner
 							</a></li>
-							<li><a href="https://github.com/dloss/python-pentest-tools">
+						<li><a href="https://github.com/dloss/python-pentest-tools">
 								https://github.com/dloss/python-pentest-tools
 							</a></li>
-						</ul>
-					</section>
+					</ul>
 				</section>
+			</section>
 
-				<section>
-					<h1>Questions?</h1>
-				</section>
-
-			</div>
-
+			<section>
+				<h1>Questions?</h1>
+			</section>
 		</div>
+	</div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/zoom/zoom.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/search/search.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
 
-		<script>
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealZoom, RevealNotes, RevealSearch, RevealHighlight]
+		});
+	</script>
+</body>
 
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				// More info https://github.com/hakimel/reveal.js#dependencies
-				dependencies: [
-					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/search/search.js', async: true },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
-				]
-			});
-
-		</script>
-
-	</body>
 </html>

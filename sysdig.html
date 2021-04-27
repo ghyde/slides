@@ -1,101 +1,101 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Intro to Sysdig</title>
+<head>
+	<meta charset="utf-8">
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+	<title>Intro to Sysdig</title>
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+	<meta name="description" content="Introduction to Sysdig">
+	<meta name="author" content="Garrett Hyde">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-				<!-- Title Slide -->
-				<section>
-					<h1>Intro to sysdig</h1>
-				</section>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-				<!-- Disclaimer -->
-				<section>
-					<h2>Disclaimer</h2>
-					<p>
-						Opinions expressed are solely my own and do not express the views
-						or opinions of my employer.
-					</p>
-					<p class="fragment">
-						Feel free to ask questions during the presentation.
-					</p>
-				</section>
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css" id="theme">
 
-				<!-- Bio -->
-				<section>
-					<h2>About Me</h2>
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- Title Slide -->
+			<section>
+				<h1>Intro to sysdig</h1>
+			</section>
+
+			<!-- Disclaimer -->
+			<section>
+				<h2>Disclaimer</h2>
+				<p>
+					Opinions expressed are solely my own and do not express the views
+					or opinions of my employer.
+				</p>
+				<p class="fragment">
+					Feel free to ask questions during the presentation.
+				</p>
+			</section>
+
+			<!-- Bio -->
+			<section>
+				<h2>About Me</h2>
+				<ul>
+					<li>Red Hat Consultant</li>
+					<li>Specialize in Kubernetes, Docker,<br>
+						and OpenShift</li>
+					<li>10+ years Linux administration</li>
+				</ul>
+				<aside class="notes">
 					<ul>
-						<li>Red Hat Consultant</li>
-						<li>Specialize in Kubernetes, Docker,<br>
-							and OpenShift</li>
-						<li>10+ years Linux administration</li>
+						<li>Using sysdig for 3 years</li>
+						<li>Previously used nagios and zabbix</li>
 					</ul>
+				</aside>
+			</section>
+
+			<!-- Sysdig Intro -->
+			<section>
+				<section>
+					<h2>What is sysdig?</h2>
+					<blockquote cite="https://www.sysdig.org/">
+						&ldquo;Sysdig is open source, system-level exploration: capture
+						system state and activity from a running Linux instance, then
+						save, filter and analyze.&rdquo;
+					</blockquote>
+					<p class="fragment">
+						strace + tcpdump + htop + iftop + lsof +<br>
+						transaction tracing + awesome sauce.
+					</p>
 					<aside class="notes">
-						<ul>
-							<li>Using sysdig for 3 years</li>
-							<li>Previously used nagios and zabbix</li>
-						</ul>
+						<p>
+							Creators of WinPCap and Wireshark, system level troubleshooting
+							made easy.
+						</p>
+						<p>
+							Captures system calls and system level events via tracepoints.
+							Less overhead than strace.
+						</p>
+						<p>
+							Container aware.
+						</p>
 					</aside>
 				</section>
+			</section>
 
-				<!-- Sysdig Intro -->
+			<!-- CLI Examples -->
+			<section>
 				<section>
-					<section>
-						<h2>What is sysdig?</h2>
-						<blockquote cite="https://www.sysdig.org/">
-							&ldquo;Sysdig is open source, system-level exploration: capture
-							system state and activity from a running Linux instance, then
-							save, filter and analyze.&rdquo;
-						</blockquote>
-						<p class="fragment">
-							strace + tcpdump + htop + iftop + lsof +<br>
-							transaction tracing + awesome sauce.
-						</p>
-						<aside class="notes">
-							<p>
-								Creators of WinPCap and Wireshark, system level troubleshooting
-								made easy.
-							</p>
-							<p>
-								Captures system calls and system level events via tracepoints.
-								Less overhead than strace.
-							</p>
-							<p>
-								Container aware.
-							</p>
-						</aside>
-					</section>
+					<h2>User Interfaces</h2>
 				</section>
-
-				<!-- CLI Examples -->
 				<section>
-					<section>
-						<h2>User Interfaces</h2>
-					</section>
-					<section>
-						<h2>sysdig</h2>
-						<pre><code class="hljs" data-trim contenteditable class="no-highlight">
+					<h2>sysdig</h2>
+					<pre><code class="hljs" data-trim contenteditable class="no-highlight">
 # list all events
 $ sysdig
 
@@ -111,158 +111,128 @@ $ sudo sysdig -pc -c topprocs_net container.name=nginx
 # Save the first 100 events
 $ sudo sysdig -n 100 -z -w dump.scap.gz
 						</code></pre>
-						<p>
-							<a href="https://www.sysdig.org/wiki/sysdig-user-guide/" target="_blank">
-								<font size="6">Sysdig User Guide</font>
-							</a><br>
-							<a href="https://www.sysdig.org/wiki/sysdig-examples/" target="_blank">
-								<font size="6">Sysdig Examples</font>
-							</a>
-						</p>
-						<aside class="notes">
-							<ul>
-								<li>Option to limit the size of capture files</li>
-								<li>Option to rotate capture files</li>
-							</ul>
-						</aside>
-					</section>
-					<section>
-						<h2>csysdig</h2>
-						<img src="media/sysdig/csysdig-screenshot.png" alt="csysdig screenshot"/>
-						<aside class="notes">
-							<p>Curses UI for sysdig</p>
-						</aside>
-					</section>
-
-					<section>
-						<h2>Sysdig Cloud</h2>
-						<img src="media/sysdig/sysdig-cloud-dashboard.png" style="width: 75%; height: 75%"/>
-						<p><a href="https://sysdig.com/" target="_blank">
-							<font size=6>*Paid service</font>
-						</a></p>
-					</section>
-				</section>
-
-				<section>
-					<h1>Demo</h1>
+					<p>
+						<a href="https://www.sysdig.org/wiki/sysdig-user-guide/" target="_blank">
+							<font size="6">Sysdig User Guide</font>
+						</a><br>
+						<a href="https://www.sysdig.org/wiki/sysdig-examples/" target="_blank">
+							<font size="6">Sysdig Examples</font>
+						</a>
+					</p>
 					<aside class="notes">
 						<ul>
-							<li>sysdig -cl</li>
-							<li>csysdig</li>
-								<ul>
-									<li>docker run --rm -ti -p 8080:80 --name nginx nginx:latest</li>
-									<li>sudo csysdig</li>
-									<li>while :; do curl -s localhost:8080 >/dev/null; sleep 1; done</li>
-								</ul>
-							<li>sysdig cloud</li>
+							<li>Option to limit the size of capture files</li>
+							<li>Option to rotate capture files</li>
 						</ul>
 					</aside>
 				</section>
-
-				<!-- Use Cases -->
 				<section>
-					<section>
-						<h1>Use Cases</h1>
-					</section>
-					<section>
-						<h2>Tracking Server Issues</h2>
-						<aside class="notes">
-							<ul>
-								<li>Capture system state before reboot</li>
-								<li>Inspect container resources</li>
-								<li>Traverse CPU to process to network</li>
-								<li>Apache memory usage</li>
+					<h2>csysdig</h2>
+					<img src="media/sysdig/csysdig-screenshot.png" alt="csysdig screenshot" />
+					<aside class="notes">
+						<p>Curses UI for sysdig</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Sysdig Cloud</h2>
+					<img src="media/sysdig/sysdig-cloud-dashboard.png" style="width: 75%; height: 75%" />
+					<p><a href="https://sysdig.com/" target="_blank">
+							<font size=6>*Paid service</font>
+						</a></p>
+				</section>
+			</section>
+
+			<section>
+				<h1>Demo</h1>
+				<aside class="notes">
+					<ul>
+						<li>sysdig -cl</li>
+						<li>csysdig</li>
+						<ul>
+							<li>docker run --rm -ti -p 8080:80 --name nginx nginx:latest</li>
+							<li>sudo csysdig</li>
+							<li>while :; do curl -s localhost:8080 >/dev/null; sleep 1; done</li>
 						</ul>
-						</aside>
-					</section>
-					<section>
-						<h2>Security Monitoring</h2>
-						<p><a href="https://www.sysdig.org/falco/" target="_blank">
+						<li>sysdig cloud</li>
+					</ul>
+				</aside>
+			</section>
+
+			<!-- Use Cases -->
+			<section>
+				<section>
+					<h1>Use Cases</h1>
+				</section>
+				<section>
+					<h2>Tracking Server Issues</h2>
+					<aside class="notes">
+						<ul>
+							<li>Capture system state before reboot</li>
+							<li>Inspect container resources</li>
+							<li>Traverse CPU to process to network</li>
+							<li>Apache memory usage</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Security Monitoring</h2>
+					<p><a href="https://www.sysdig.org/falco/" target="_blank">
 							Sysdig Falco
 						</a></p>
-						<p><a href="https://sysdig.com/blog/fishing-for-hackers/" target="_blank">
+					<p><a href="https://sysdig.com/blog/fishing-for-hackers/" target="_blank">
 							Fishing for Hackers
 						</a></p>
-						<aside class="notes">
-							<p>
-								sysdig falco: behavioral activity monitor designed to detect
-								anomalous activity in your applications, containers, hosts,
-								network activity, etc.
-							</p>
-							<p>
-								snort + ossec + strace.
-							</p>
-							<p>
-								Honeypot: `sysdig -c spy_user`
-							</p>
-						</aside>
-					</section>
+					<aside class="notes">
+						<p>
+							sysdig falco: behavioral activity monitor designed to detect
+							anomalous activity in your applications, containers, hosts,
+							network activity, etc.
+						</p>
+						<p>
+							snort + ossec + strace.
+						</p>
+						<p>
+							Honeypot: `sysdig -c spy_user`
+						</p>
+					</aside>
 				</section>
+			</section>
 
-				<section>
-					<h2>Resources</h2>
-					<p>
-						<a href="https://twitter.com/GarrettHyde" target="_blank">
+			<section>
+				<h2>Resources</h2>
+				<p>
+					<a href="https://twitter.com/GarrettHyde" target="_blank">
 						@GarrettHyde</a>
-					</p>
-					<p>
-						<a href="http://ghyde.github.io/slides/sysdig.html" target="_blank">
+				</p>
+				<p>
+					<a href="http://ghyde.github.io/slides/sysdig.html" target="_blank">
 						http://ghyde.github.io/slides/sysdig.html</a>
-					</p>
-					<p>
-						<a href="https://github.com/draios/sysdig" target="_blank">
-							https://github.com/draios/sysdig</a>
-					</p>
-				</section>
-
-			</div>
-
+				</p>
+				<p>
+					<a href="https://github.com/draios/sysdig" target="_blank">
+						https://github.com/draios/sysdig</a>
+				</p>
+			</section>
 		</div>
+	</div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/zoom/zoom.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/search/search.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
 
-		<script>
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealZoom, RevealNotes, RevealSearch, RevealHighlight]
+		});
+	</script>
+</body>
 
-			// More info https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-						<ul>
-							<li>
-						</ul>
-					</section>
-				</section>
-			</div>
-		</div>
-
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
-
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-          { src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
 </html>

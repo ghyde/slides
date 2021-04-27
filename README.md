@@ -4,4 +4,4 @@ This repository contains slide decks for different presentations.
 
 **Presentations:**
 
-- [reveal.js example presentation](http://ghyde.github.io/slides/demo.html)
+- [reveal.js example presentation](http://ghyde.github.io/slides/reveal_demo.html)

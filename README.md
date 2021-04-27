@@ -1,7 +1,7 @@
-# Slide Decks #
+# Slide Decks
 
 This repository contains slide decks for different presentations.
 
-**Presentations:**
+## Framework
 
-- [reveal.js example presentation](http://ghyde.github.io/slides/reveal_demo.html)
+Slide decks are built using [reveal.js](https://revealjs.com/).

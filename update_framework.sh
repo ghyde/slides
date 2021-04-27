@@ -25,7 +25,6 @@ done
 
 mv ${SOURCE}/demo.html ./reveal_demo.html
 mv ${SOURCE}/index.html ./reveal_template.html
-mv ${SOURCE}/package.json ./
 
 # Commit update
 git commit -am "Update reveal.js to v${VERSION}"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-URL="https://github.com/hakimel/reveal.js/archive/refs/tags/4.1.0.tar.gz"
+URL="https://github.com/hakimel/reveal.js/archive/refs/tags/4.2.1.tar.gz"
 VERSION="$(basename ${URL} .tar.gz)"
 
 set -ex

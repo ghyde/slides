@@ -33,10 +33,10 @@
 			<section>
 				<h2>About Me</h2>
 				<ul>
-					<li>Red Hat Architect</li>
+					<li>Sr. Security Automation Engineer</li>
 					<li>Utah Cyber Protection Team</li>
-					<li>10+ years Python</li>
-					<li>10+ years Linux administration</li>
+					<li>15+ years Python</li>
+					<li>15+ years Linux administration</li>
 				</ul>
 				<p>
 					Twitter: <a href="https://twitter.com/garretthyde">@GarrettHyde</a>
@@ -52,37 +52,38 @@
 				<section>
 					<h2>Sockets</h2>
 					<pre><code class="python" data-trim contenteditable>
+# Echo client program
 import socket
 
-HOST = "example.com"
-PORT = 23
+HOST = 'example.com'  # The remote host
+PORT = 50007          # The same port as used by the server
 
-s = socket.socket()
-try:
-	s.connect((HOST, PORT))  # Connect to server
-	reply = s.recv(1024)     # Get server prompt
-	s.send("Hello, World!")  # Send text
-	reply = s.recv(2048)     # Get server reply
-	print(reply)
-finally:
-	s.close()
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((HOST, PORT))     # Connect to server
+    s.sendall(b'Hello, world')  # Send text
+    data = s.recv(1024)         # Get server reply
+print('Received', repr(data))   # Print data
 						</code></pre>
-					<a href="https://docs.python.org/2/library/socket.html">
-						https://docs.python.org/2/library/socket.html
-					</a>
+					<p style="font-size: 18px;">
+						Reference: <a href="https://docs.python.org/3/library/socket.html#example">
+							https://docs.python.org/3/library/socket.html#example
+						</a>
+					</p>
 				</section>
 
 				<section>
 					<h2>Open URLs</h2>
 					<pre><code class="python" data-trim contenteditable>
-import urllib2
+from urllib.request import urlopen
 
-response = urllib2.urlopen('http://example.com/')
-html = response.read()
+with urlopen('https://python.org/') as response:
+    html = response.read()
 						</code></pre>
-					<a href="https://docs.python.org/2/howto/urllib2.html">
-						https://docs.python.org/2/howto/urllib2.html
-					</a>
+					<p style="font-size: 18px;">
+						Reference: <a href="https://docs.python.org/3/howto/urllib2.html#fetching-urls">
+							https://docs.python.org/3/howto/urllib2.html#fetching-urls
+						</a>
+					</p>
 				</section>
 
 				<section>
@@ -90,16 +91,18 @@ html = response.read()
 					<pre><code class="python" data-trim contenteditable>
 import requests
 r = requests.get('https://example.com/user',
-				 auth=('user', 'pass'))
+                 auth=('user', 'pass'))
 r.status_code  # 200
 r.headers['content-type']  # 'application/json; charset=utf8'
 r.encoding  # 'utf-8'
-r.text      # u'{"type":"User"...'
-r.json()    # {u'some_info': u'foo', u'more_info': u'bar'}
+r.text      # '{"type":"User"...'
+r.json()    # {'some_info': 'foo', 'more_info': 'bar'}
 						</code></pre>
-					<a href="http://docs.python-requests.org/en/master/">
-						http://docs.python-requests.org/en/master/
-					</a>
+					<p style="font-size: 18px;">
+						Reference: <a href="http://docs.python-requests.org/en/master/">
+							http://docs.python-requests.org/en/master/
+						</a>
+					</p>
 				</section>
 
 			</section>
@@ -138,19 +141,19 @@ from bs4 import BeautifulSoup
 import requests
 
 def get_captcha(url):
-  r = requests.get(url)
-  data = r.text
-  soup = BeautifulSoup(data, 'html.parser')
-  captcha = soup.find_all('p')[0]
+    r = requests.get(url)
+    data = r.text
+    soup = BeautifulSoup(data, 'html.parser')
+    captcha = soup.find_all('p')[0]
 
-  # Replace "br" tags with "\n"
-  for br in captcha.find_all('br'):
-	  br.replace_with("\n")
+    # Replace "br" tags with "\n"
+    for br in captcha.find_all('br'):
+        br.replace_with("\n")
 
-  # Filter out empty lines
-  captcha = [l for l in captcha.getText().split("\n")
-			 if l.strip() != u""]
-  return captcha, r.cookies
+    # Filter out empty lines
+    captcha = [l for l in captcha.getText().split("\n")
+               if l.strip() != ""]
+    return captcha, r.cookies
 						</code></pre>
 					<aside class="notes">
 						<p>
@@ -190,8 +193,7 @@ src_ip = "10.1.0.50"
 dest_ip = "10.1.0.100"
 
 e = Ether(src=src_mac, dst="ff:ff:ff:ff:ff:ff", type=0x0806)
-a = ARP(op=0x01, hwsrc=src_mac, psrc=src_ip,
-		pdst=dest_ip)
+a = ARP(op=0x01, hwsrc=src_mac, psrc=src_ip, pdst=dest_ip)
 
 sendp(e/a, iface=src_nic)
 						</code></pre>
@@ -205,10 +207,10 @@ from scapy.all import *
 src_nic = "eth0"
 src_mac = "ab:cd:ef:01:02:03"
 
-a = IPv6(dst="ff02::1")                   # Send to IPv6 Multicast Address
-b = ICMPv6ND_RA()                         # IPv6 Router Adversitement
+a = IPv6(dst="ff02::1")  # Send to IPv6 Multicast Address
+b = ICMPv6ND_RA()        # IPv6 Router Adversitement
 c = ICMPv6NDOptSrcLLAddr(lladdr=src_mac)  # Source Link-Layer Address
-d = ICMPv6NDOptMTU()                      # Maximum Transfer Unit
+d = ICMPv6NDOptMTU()     # Maximum Transfer Unit
 e = ICMPv6NDOptPrefixInfo(prefix="cc5f::", prefixlen=64)  # Advertised Prefix
 
 send(a/b/c/d/e, iface=src_nic)
@@ -271,42 +273,48 @@ from cryptography.fernet import Fernet
 
 key = Fernet.generate_key()
 cipher_suite = Fernet(key)
+data = b"A really secret message"
 
 # Encryption
-cipher_text = cipher_suite.encrypt(
-  b"A really secret message. Not for prying eyes.")
+cipher_text = cipher_suite.encrypt(data)
 
 # Decryption
 plain_text = cipher_suite.decrypt(cipher_text)
 						</code></pre>
 					<p style="font-size: 18px;">
-						Reference: <a href="http://docs.python-guide.org/en/latest/scenarios/crypto/#example" target="_blank">
+						Reference: <a href="http://docs.python-guide.org/en/latest/scenarios/crypto/#example"
+							target="_blank">
 							http://docs.python-guide.org/en/latest/scenarios/crypto/#example</a>
 					</p>
 				</section>
 
 				<section>
-					<h2>PyCrypto</h2>
-					<a href="https://www.dlitz.net/software/pycrypto/" target="_blank">
-						https://www.dlitz.net/software/pycrypto/
+					<h2>PyCryptodome</h2>
+					<a href="https://www.pycryptodome.org/en/latest/" target="_blank">
+						https://www.pycryptodome.org/en/latest/
 					</a>
 					<pre><code class="python" data-trim contenteditable>
 from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
+data = b"A really secret message."
+key = get_random_bytes(16)
 
 # Encryption
-encryption_suite = AES.new('This is a key123',
-  AES.MODE_CBC, 'This is an IV456')
-cipher_text = encryption_suite.encrypt(
-  "A really secret message. Not for prying eyes.")
+encryption_suite = AES.new(key, AES.MODE_EAX)
+nonce = encryption_suite.nonce  # a number used only once
+cipher_text = encryption_suite.encrypt(data)
 
 # Decryption
-decryption_suite = AES.new('This is a key123',
-  AES.MODE_CBC, 'This is an IV456')
+decryption_suite = AES.new(key, AES.MODE_EAX, nonce)
 plain_text = decryption_suite.decrypt(cipher_text)
 						</code></pre>
 					<p style="font-size: 18px;">
-						Reference: <a href="http://docs.python-guide.org/en/latest/scenarios/crypto/#pycrypto" target="_blank">
-							http://docs.python-guide.org/en/latest/scenarios/crypto/#pycrypto</a>
+						Reference: <a
+							href="https://www.pycryptodome.org/en/latest/src/examples.html#encrypt-data-with-aes"
+							target="_blank">
+							https://www.pycryptodome.org/en/latest/src/examples.html#encrypt-data-with-aes
+						</a>
 					</p>
 				</section>
 
@@ -321,10 +329,12 @@ plain_text = decryption_suite.decrypt(cipher_text)
 				<section>
 					<h2>Buffer Overflow</h2>
 					<pre><code class="console" data-trim contenteditable>
-$ python -c 'print("a" * 5)'
+$ python3 -c 'print("a" * 5)'
 aaaaa
 
-$ python -c 'print("0"*128 + b"\x8b\x87\x04\x08")' | pwned.exe
+$ python3 -c \
+    'import sys; sys.stdout.buffer.write(b"0"*128 + b"\x8b\x87\x04\x08")' \
+    | pwned.exe
 						</code></pre>
 				</section>
 
@@ -332,8 +342,9 @@ $ python -c 'print("0"*128 + b"\x8b\x87\x04\x08")' | pwned.exe
 					<h2>Generate Random Strings</h2>
 					<pre><code class="python" data-trim contenteditable>
 import random
+import string
 
-chars = "abcdefghijklmnopqrstuvwxyz1234567890"
+chars = string.ascii_letters + string.digits
 str_len = 16
 
 random_str = "".join(random.sample(chars, str_len))
@@ -355,8 +366,12 @@ print(random_str)
 
 				<section>
 					<h2>Books</h2>
-					<img src="media/hacking_with_python/violent_python.jpg" alt="Violent Python">
 					<img src="media/hacking_with_python/black_hat_python.jpg" alt="Black Hat Python">
+					<aside class="notes">
+						<p>
+							When searching for books, check if they have been updated for Python 3.
+						</p>
+					</aside>
 				</section>
 
 				<section>
@@ -372,7 +387,7 @@ print(random_str)
 								PDFMiner
 							</a></li>
 						<li><a href="https://github.com/dloss/python-pentest-tools">
-								https://github.com/dloss/python-pentest-tools
+								Python tools for penetration testers
 							</a></li>
 					</ul>
 				</section>
